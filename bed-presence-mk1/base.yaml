@@ -42,6 +42,7 @@ binary_sensor:
     icon: mdi:bunk-bed
     lambda: return id(occupied_${sensor_id_left}).state || id(occupied_${sensor_id_right}).state;
 
+sensor:
   - platform: template
     name: State
     id: state
