@@ -47,6 +47,7 @@ text_sensor:
     name: State
     id: state
     icon: mdi:bunk-bed
+    update_interval: 1s
     lambda: |-
         if (id(full).state) {
           return {"Full"};
