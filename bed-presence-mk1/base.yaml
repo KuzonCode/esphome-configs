@@ -46,7 +46,7 @@ binary_sensor:
     name: Recently Occupied
     id: recently_occupied
     device_class: occupancy
-    lambda: return id(occupied_${occupancy}).state;
+    lambda: return id(occupied).state;
     filters:
       - delayed_off: 300s
 
@@ -66,7 +66,7 @@ text_sensor:
         else if (id(occupied_${sensor_id_right}).state) {
           return {"Occupied (Rach)"};
         }
-        else if (id(occupied_${recently_occupied}).state) {
+        else if (id(recently_occupied).state) {
           return {"Recently Empty"};
         }
         return {"Empty"};
