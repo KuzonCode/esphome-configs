@@ -42,6 +42,14 @@ binary_sensor:
     icon: mdi:bunk-bed
     lambda: return id(occupied_${sensor_id_left}).state || id(occupied_${sensor_id_right}).state;
 
+  - platform: template
+    name: Recently Occupied
+    id: recently_occupied
+    device_class: occupancy
+    lambda: return id(occupied_${occupancy}).state;
+    off_delay: 300s
+    update_interval: 1s 
+
 text_sensor:
   - platform: template
     name: State
@@ -52,7 +60,13 @@ text_sensor:
         if (id(full).state) {
           return {"Full"};
         }
-        else if (id(occupied).state) {
-          return {"Occupied"};
+        else if (id(occupied_${sensor_id_left}).state) {
+          return {"Occupied (Bradley)"};
+        }
+        else if (id(occupied_${sensor_id_right}).state) {
+          return {"Occupied (Rach)"};
+        }
+        else if (id(occupied_${recently_occupied}).state) {
+          return {"Recently Empty"};
         }
         return {"Empty"};
