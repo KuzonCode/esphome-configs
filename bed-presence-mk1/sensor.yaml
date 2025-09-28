@@ -62,7 +62,7 @@ sensor:
     icon: mdi:gauge
     filters:
       - lambda: |-                                # scale pulses/minute to 0%->100%
-          float cal_0 = id(full_range).state ? 0 : ${calibrate_0};
+          float cal_0 = ${calibrate_0};
 
           float val = (x - cal_0) * 100;
           float range = ${calibrate_100} - cal_0;
