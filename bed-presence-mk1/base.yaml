@@ -54,4 +54,4 @@ binary_sensor:
         else if (id(occupied).state) {
           return "Occupied";
         }
-        return "Empty"
+        return "Empty";
