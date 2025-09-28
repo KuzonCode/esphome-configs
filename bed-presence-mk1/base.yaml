@@ -49,9 +49,9 @@ text_sensor:
     icon: mdi:bunk-bed
     lambda: |-
         if (id(full).state) {
-          return "Full";
+          return {"Full"};
         }
         else if (id(occupied).state) {
-          return "Occupied";
+          return {"Occupied"};
         }
-        return "Empty";
+        return {"Empty"};
