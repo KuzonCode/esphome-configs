@@ -47,8 +47,8 @@ binary_sensor:
     id: recently_occupied
     device_class: occupancy
     lambda: return id(occupied_${occupancy}).state;
-    off_delay: 300s
-    update_interval: 1s 
+    filters:
+      - delayed_off: 300s
 
 text_sensor:
   - platform: template
