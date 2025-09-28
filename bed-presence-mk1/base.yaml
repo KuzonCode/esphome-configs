@@ -45,7 +45,6 @@ binary_sensor:
   - platform: template
     name: State
     id: state
-    device_class: occupancy
     icon: mdi:bunk-bed
     lambda: |-
         if (id(full).state) {
