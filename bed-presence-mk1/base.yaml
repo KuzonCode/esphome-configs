@@ -1,6 +1,8 @@
 substitutions:
   sensor_gpio_left: GPIO10
+  sensor_id_left: bradleys_side
   sensor_gpio_right: GPIO20
+  sensor_id_right: rachs_side
 
 packages:
   diagnostics: !include
@@ -14,67 +16,42 @@ packages:
   left_bed_sensor: !include
     file: sensor.yaml
     vars:
-      sensor_name: Left
-      sensor_id: left
+      sensor_name: "Bradley's Side"
+      sensor_id: ${sensor_id_left}
       sensor_gpio: ${sensor_gpio_left}
 
   right_bed_sensor: !include
     file: sensor.yaml
     vars:
-      sensor_name: Right
-      sensor_id: right
+      sensor_name: "Rach's Side"
+      sensor_id: ${sensor_id_right}
       sensor_gpio: ${sensor_gpio_right}
 
 binary_sensor:
   - platform: template
-    name: Bed Occupied Both (Fast)
-    id: bed_occupied_both_fast
+    name: Full
+    id: full
     device_class: occupancy
     icon: mdi:bunk-bed
-    disabled_by_default: true
-    lambda: return id(bed_occupied_left_fast).state && id(bed_occupied_right_fast).state;
+    lambda: return id(bed_occupied_${sensor_id_left}).state && id(bed_occupied_${sensor_id_right}).state;
 
   - platform: template
-    name: Bed Occupied Either (Fast)
-    id: bed_occupied_either_fast
+    name: Occupied
+    id: occupied
     device_class: occupancy
     icon: mdi:bunk-bed
-    disabled_by_default: true
-    lambda: return id(bed_occupied_left_fast).state || id(bed_occupied_right_fast).state;
+    lambda: return id(bed_occupied_${sensor_id_left}).state || id(bed_occupied_${sensor_id_right}).state;
 
   - platform: template
-    name: Bed Occupied Both
-    id: bed_occupied_both
+    name: Status
+    id: status
     device_class: occupancy
     icon: mdi:bunk-bed
-    lambda: return id(bed_occupied_left).state && id(bed_occupied_right).state;
-
-  - platform: template
-    name: Bed Occupied Either
-    id: bed_occupied_either
-    device_class: occupancy
-    icon: mdi:bunk-bed
-    lambda: return id(bed_occupied_left).state || id(bed_occupied_right).state;
-
-switch:
-  - platform: template
-    name: Full Range
-    id: full_range
-    optimistic: true
-    restore_mode: RESTORE_DEFAULT_OFF
-    entity_category: config
-    icon: mdi:arrow-expand
-
-select:
-  - platform: template
-    name: "Response Speed"
-    id: response_speed
-    icon: mdi:speedometer
-    optimistic: true
-    restore_value: true
-    options:
-      - "Fast"
-      - "Normal"
-      - "Slow"
-    initial_option: "Normal"
-    entity_category: config
+    lambda: |-
+        if (id(full).state) {
+          return "Full";
+        }
+        else if (id(occupied).state) {
+          return "Occupied";
+        }
+        return "Empty"
