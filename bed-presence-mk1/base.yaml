@@ -40,7 +40,7 @@ binary_sensor:
     id: occupied
     device_class: occupancy
     icon: mdi:bunk-bed
-    lambda: return id(occupied_${sensor_id_left}).state || id(ccupied_${sensor_id_right}).state;
+    lambda: return id(occupied_${sensor_id_left}).state || id(occupied_${sensor_id_right}).state;
 
   - platform: template
     name: State
