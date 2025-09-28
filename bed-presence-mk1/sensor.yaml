@@ -50,7 +50,7 @@ binary_sensor:
     filters:
       - delayed_on: ${delayed_on}
       - delayed_off: ${delayed_off}
-    lambda: return id(bed_sensor_${sensor_id}).state > id(val_trigger_${sensor_id}).state;
+    lambda: return id(sensor_${sensor_id}).state > id(val_trigger_${sensor_id}).state;
 
 sensor:
   - platform: pulse_counter
@@ -77,7 +77,7 @@ sensor:
           - delta: ${reporting_delta}             # only send if sensor changes by `reporting_delta` (eliminate sensor noise)
           - throttle: ${reporting_interval_max}   # but still update every `reporting_interval_max`
   - platform: copy
-    source_id: bed_sensor_${sensor_id}
+    source_id: sensor_${sensor_id}
     name: Calibrated ${sensor_name} Pressure
     id: sensor_${sensor_id}_calibrated
     icon: mdi:scale-balance
